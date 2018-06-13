@@ -1,0 +1,171 @@
+<html>
+    <head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href="icon1.png">
+    <title>Quiz</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/creative.min.css" rel="stylesheet">
+        <style>
+            body{
+
+            
+            background-image: url("https://i.pinimg.com/originals/72/b6/a2/72b6a2e749de0a8f87c536077c2e4b2e.jpg");
+
+        
+            }
+        </style>
+    </head>
+    <body>
+    <h1 align="center"> MCQ TEST</h1>
+    
+    Please Enter Your Roll Number: <input type="text" id="rollNo" name="fname"><br>
+    <h2 id="td1"></h2>
+    <p id="td2"></p>
+    <p id="td3"></p>
+    <p id="td4"></p>
+    <p id="td5"></p>
+    <input class="radioBtn" type="radio" name="gender" value="1"> Option 1
+    <input class="radioBtn" type="radio" name="gender" value="2"> Option 2
+    <input class="radioBtn" type="radio" name="gender" value="3"> Option 3
+    <input class="radioBtn" type="radio" name="gender" value="4"> Option 4
+
+    <h2 id="td6"></h2>
+    <p id="td7"></p>
+    <p id="td8"></p>
+    <p id="td9"></p>
+    <p id="td10"></p>
+    <input class="radioBtn1" type="radio" name="gender1" value="5"> Option 1
+    <input class="radioBtn1" type="radio" name="gender1" value="6"> Option 2
+    <input class="radioBtn1" type="radio" name="gender1" value="7"> Option 3
+    <input class="radioBtn1" type="radio" name="gender1" value="8"> Option 4
+    <h2 id="td11"></h2>
+    <p id="td12"></p>
+    <p id="td13"></p>
+    <p id="td14"></p>
+    <p id="td15"></p>
+    <input class="radioBtn2" type="radio" name="gender2" value="9"> Option 1
+    <input class="radioBtn2" type="radio" name="gender2" value="10"> Option 2
+    <input class="radioBtn2" type="radio" name="gender2" value="11"> Option 3
+    <input class="radioBtn2"type="radio" name="gender2" value="12"> Option 4 <br>
+    <button id="submit">Submitt</button>
+    <textarea id="output"></textarea>
+    <textarea id="output1"></textarea>
+    <textarea id="output2"></textarea>
+
+    </body>
+    </html>
+    <script>
+        
+  
+$(document).ready(function() {
+   $("#submit").click(function() {
+    var radioBtns = document.getElementsByClassName("radioBtn");
+  for(var i = 0; i < radioBtns.length; i++){
+    if(radioBtns[i].checked){
+      document.getElementById("output").textContent = radioBtns[i].value; 
+    }
+  }
+  var radioBtns1 = document.getElementsByClassName("radioBtn1");
+  for(var i = 0; i < radioBtns1.length; i++){
+    if(radioBtns1[i].checked){
+      document.getElementById("output1").textContent = radioBtns1[i].value; 
+    }
+  }
+  var radioBtns2 = document.getElementsByClassName("radioBtn2");
+  for(var i = 0; i < radioBtns2.length; i++){
+    if(radioBtns2[i].checked){
+      document.getElementById("output2").textContent = radioBtns2[i].value; 
+    }
+  }
+ 
+     var score = [$("#output").val(),$('#output1').val(),$('#output2').val()]
+     var rollNo = $("#rollNo").val();
+     console.log("score----->",score)
+     console.log("rollNo---->",rollNo)
+      var datastring = {
+        	"score":score,
+             "rollNo":rollNo
+      } 
+    $.ajax({
+              type: "POST",
+              url: "http://localhost:3000/UploadScore",
+              contentType: 'application/json',
+              
+              
+            
+              data: JSON.stringify(datastring),
+      
+              success: function(result) {
+                  console.log("message"+JSON.stringify (result.marks));
+                 
+                  alert("Your Score is"+" "+ result.marks)
+              }
+    });
+   });
+});
+           
+           $(document).ready(function() {
+            window.onload = getdata;
+            function getdata() {
+
+                $.ajax({
+                          type: "GET",
+                          url: "http://localhost:3000/fetchQuestions",
+                          contentType: 'application/json',
+                  
+                          success: function(message) {
+                              console.log("message"+JSON.stringify(message.Questions[0].Question.Question));
+                              var questionOne = JSON.stringify(message.Questions[0].Question.Question)
+                              var optionOne = JSON.stringify(message.Questions[0].Question.Option1)
+                              var optionTwo = JSON.stringify(message.Questions[0].Question.Option2)
+                              var optionThree = JSON.stringify(message.Questions[0].Question.Option3)
+                              var optionFour = JSON.stringify(message.Questions[0].Question.Option4)
+                              document.getElementById("td1").innerHTML = questionOne;
+                              document.getElementById("td2").innerHTML = optionOne;
+                              document.getElementById("td3").innerHTML = optionTwo;
+                              document.getElementById("td4").innerHTML = optionThree;
+                              document.getElementById("td5").innerHTML = optionFour;
+                              var questionTwo = JSON.stringify(message.Questions[1].Question.Question)
+                              var optionOnee = JSON.stringify(message.Questions[1].Question.Option1)
+                              var optionTwoo = JSON.stringify(message.Questions[1].Question.Option2)
+                              var optionThreee = JSON.stringify(message.Questions[1].Question.Option3)
+                              var optionFourr = JSON.stringify(message.Questions[1].Question.Option4)
+                              document.getElementById("td6").innerHTML = questionTwo;
+                              document.getElementById("td7").innerHTML = optionOnee;
+                              document.getElementById("td8").innerHTML = optionTwoo;
+                              document.getElementById("td9").innerHTML = optionThreee;
+                              document.getElementById("td10").innerHTML = optionFourr;
+                              var questionThree = JSON.stringify(message.Questions[2].Question.Question)
+                              var optionOneee = JSON.stringify(message.Questions[2].Question.Option1)
+                              var optionTwooo = JSON.stringify(message.Questions[2].Question.Option2)
+                              var optionThreeee = JSON.stringify(message.Questions[2].Question.Option3)
+                              var optionFourrr = JSON.stringify(message.Questions[2].Question.Option4)
+                              document.getElementById("td11").innerHTML = questionThree;
+                              document.getElementById("td12").innerHTML = optionOnee;
+                              document.getElementById("td13").innerHTML = optionTwoo;
+                              document.getElementById("td14").innerHTML = optionThreee;
+                              document.getElementById("td15").innerHTML = optionFourrr;
+                          },
+                          
+                });
+            }
+           })
+                            </script>
+                            
