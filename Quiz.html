@@ -123,12 +123,14 @@ $(document).ready(function() {
            
            $(document).ready(function() {
             window.onload = getdata;
+            console.log("rahul")
             function getdata() {
 
                 $.ajax({
                           type: "GET",
                           url: "http://localhost:3000/fetchQuestions",
                           contentType: 'application/json',
+                          
                   
                           success: function(message) {
                               console.log("message"+JSON.stringify(message.Questions[0].Question.Question));
