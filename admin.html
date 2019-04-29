@@ -37,13 +37,14 @@ footer {
 </style>
 </head>
 <body>
-  <title>Supply Chain</title>
+    <title>Quiz</title>
 <div class="topnav">
   <a></a>
   
 </div>
 
 <section id="services">
+<div id="content">
 <div class="container">
   <div class="row">
       <div class="col-lg-3 col-md-6 text-center">
@@ -53,8 +54,8 @@ footer {
     <tr>
       <th>Roll No.</th>
       <th>Marks</th>
-      <th>Block Time</th>
-      <th>Transaction Id</th>
+      <!-- <th>Block Time</th>
+      <th>Transaction Id</th> -->
     </tr>
    
      </thead>
@@ -63,10 +64,14 @@ footer {
   </div>
   </div>
   </div>
+  </div>
 </section>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src= "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"></script>
   <script>
+    
 //       function myTrim(x) {
 //     return x.replace(/^\s+|\s+$/gm,'');
 // }
@@ -159,8 +164,8 @@ footer {
             //    event_data += '<td id='+i+' value='+""+'>'+value.Id+'</td>';
                 event_data += '<td>'+hi.response[i].RollNo+'</td>';
                 event_data += '<td>'+hi.response[i].Score+'</td>';
-                event_data += '<td>'+hi.response[i].blocktime+'</td>';
-                event_data += '<td>'+hi.response[i].txid+'</td>';
+                // event_data += '<td>'+hi.response[i].blocktime+'</td>';
+                // event_data += '<td>'+hi.response[i].txid+'</td>';
                 event_data += '</tr>';
                 };
             $("#itemList").append(event_data);
@@ -169,6 +174,7 @@ footer {
   
     }
 })
+
 $(document).ready(function(){
         $("#approve").click(function(){
          var data =   $("input:text").val();
@@ -224,8 +230,36 @@ $(document).ready(function(){
 		 	
 			
   </script>
- 
+ <div>
+    <button class="btn" id="export">Print</button>
+  </div>
+
+  <div>
+      <button class="btn" onclick="myFunction()">Logout</button>
+    </div>
+    <script>
+    function myFunction() {
+      window.location.assign("file:///home/rahul/Desktop/QuizProject/QuizUI/login.html")
+    }
+    </script>
   <style>
+
+  .btn {
+  background-color: grey;
+  border: none;
+  color: black;
+  border-radius: 8px;
+  padding: 12px 54px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  top: 50%;
+  margin-left: 50px;
+  margin-right: 60px; 
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
     @import url(https://fonts.googleapis.com/css?family=Roboto:300);
   .login-page {
     width: 360px;
@@ -366,3 +400,48 @@ input{
  letter-spacing: 4px;
 }
   </style>
+<script>
+document.getElementById('export').addEventListener('click',
+  exportPDF);
+
+var specialElementHandlers = {
+  // element with id of "bypass" - jQuery style selector
+  '.no-export': function(element, renderer) {
+    // true = "handled elsewhere, bypass text extraction"
+    return true;
+  }
+};
+
+function exportPDF() {
+
+  var doc = new jsPDF('p', 'pt', 'a4');
+  //A4 - 595x842 pts
+  //https://www.gnu.org/software/gv/manual/html_node/Paper-Keywords-and-paper-size-in-points.html
+
+
+  //Html source 
+  var source = document.getElementById('content').innerHTML;
+
+  var margins = {
+    top: 50,
+    bottom: 50,
+    left: 100,
+    width: 595
+  };
+
+  doc.fromHTML(
+    source, // HTML string or DOM elem ref.
+    margins.left,
+    margins.top, {
+      'width': margins.width,
+      'elementHandlers': specialElementHandlers
+    },
+
+    function(dispose) {
+      // dispose: object with X, Y of the last line add to the PDF 
+      //          this allow the insertion of new lines after html
+      doc.save('Test.pdf');
+    }, margins);
+}
+
+</script>

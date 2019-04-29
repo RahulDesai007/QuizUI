@@ -30,12 +30,60 @@
 
         
             }
+
+            /* Style the form - display items horizontally */
+.form-inline { 
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+/* Add some margins for each label */
+.form-inline label {
+  margin: 5px 10px 5px 0;
+}
+
+/* Style the input fields */
+.form-inline input {
+  vertical-align: middle;
+  margin: 19px 108px 4px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+/* Style the submit button */
+.form-inline button {
+  padding: 10px 20px;
+  background-color: dodgerblue;
+  border: 1px solid #ddd;
+  color: white;
+}
+
+.form-inline button:hover {
+  background-color: royalblue;
+}
+
+/* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+@media (max-width: 800px) {
+  .form-inline input {
+    margin: 10px 0;
+  }
+
+  .form-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
         </style>
     </head>
     <body>
     <h1 align="center"> MCQ TEST</h1>
-    
+    <form class="form-inline" action="/action_page.php">
+    Name: <input type="text" id="name" name="fname"><br>
     Please Enter Your Roll Number: <input type="text" id="rollNo" name="fname"><br>
+    Parents Mobile Number: <input type="text" id="mobNo" name="fname"><br>
+    </form>
     <h2 id="td1"></h2>
     <p id="td2"></p>
     <p id="td3"></p>
@@ -97,11 +145,15 @@ $(document).ready(function() {
  
      var score = [$("#output").val(),$('#output1').val(),$('#output2').val()]
      var rollNo = $("#rollNo").val();
+     var name = $("#name").val();
+     var mobNo = $("#mobNo").val();
      console.log("score----->",score)
      console.log("rollNo---->",rollNo)
       var datastring = {
         	"score":score,
-             "rollNo":rollNo
+             "rollNo":rollNo,
+             "name": name,
+             "mobNo": mobNo
       } 
     $.ajax({
               type: "POST",
@@ -116,6 +168,7 @@ $(document).ready(function() {
                   console.log("message"+JSON.stringify (result.marks));
                  
                   alert("Your Score is"+" "+ result.marks)
+                  window.location.assign("file:///home/rahul/Desktop/QuizProject/QuizUI/login.html")
               }
     });
    });
