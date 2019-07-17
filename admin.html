@@ -54,9 +54,13 @@ footer {
     <tr>
       <th>Roll No.</th>
       <th>Marks</th>
+      <th>Status</th>
       <!-- <th>Block Time</th>
       <th>Transaction Id</th> -->
     </tr>
+    <td id="td1"></td>
+    <td id="td2"></td>
+    <td id="td3"></td>
    
      </thead>
   </table>
@@ -66,84 +70,14 @@ footer {
   </div>
   </div>
 </section>
-
+  <script src="jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src= "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"></script>
   <script>
     
-//       function myTrim(x) {
-//     return x.replace(/^\s+|\s+$/gm,'');
-// }
-      $(document).ready(function() {
-         // alert("data")
-            getdata()
-           // alert("data2")
-          //  $("#submit1").click(function() {
-            function getdata() {
-                var datastring = {"key":"distributer"}
-    //   $.ajax({
-    //           type: "POST", 
-    //           url:"<td>"  + "<button>"+ "Approve" +"</button>" 
-    //                                       + "<button>"+ "Reject" +"</button>" + "</td></tr>" "http://172.16.12.34:3000/requestedProduct",
-    //           cont"<td>"  + "<button>"+ "Approve" +"</button>" 
-    //                                       + "<button>"+ "Reject" +"</button>" + "</td></tr>"entType: 'application/json',
-"<td>"  + "<button>"+ "Approve" +"</button>" 
-    //                                       + "<button>"+ "Reject" +"</button>" + "</td></tr>"
-    //           data"<td>"  + "<button>"+ "Approve" +"</button>" 
-    //                                       + "<button>"+ "Reject" +"</button>" + "</td></tr>": JSON.stringify(datastring),
-    //           success: function(result) {
-    //               console.log("response--->",result.message);
-    //               var data = [];
-    //                data = result.message
-    //               var mydata = [];
-    //                 console.log("data---->", data.length)
-    //                 for (var j = 0; j < data.length; j++ ){
-    //                 var id1 = JSON.stringify(data[j].Id);
-    //                 var id = id1.valueOf();
-    //                 console.log("Id---->",id)
-    //                 var productName1 = JSON.stringify(data[j].JsonObj)
-    //                 var productName2 = JSON.parse(productName1)
-    //                 console.log("productName---->",JSON.parse (productName2))
-    //                 var productDetails = JSON.parse (productName2)
-    //                 var proName = productDetails.productname
-    //                 console.log("rahul---->", proName )
-    //                  var year = productDetails.yearofmanufacture
-    //                  console.log("year--->", year)
-    //                 var weight = productDetails.weight
-    //                 console.log ("weight--->", weight)
-    //                 var quantity = JSON.stringify(data[j].Quantity) 
-    //                 console.log("quantity---->",quantity)
-    //                 mydata.push({
-    //                    "id": id,
-    //                    "proName": proName,
-    //                    "year" : year,
-    //                    "weight": weight,
-    //                    "quantity" : quantity
-    //                 });
-    //                  var tbl = $("<table/>").attr("id", "itemList");
-    //                 $("#services").append(tbl);
-    //                 for (var i = 0; i < mydata.length; i++) {
-    //                   console.log("dataaaa---->", mydata.length)
-    //                     var tr = "<tr>";
-    //                     var td1 = "<td> " + mydata[i]["id"] + "</td>";
-    //                     var td2 = "<td> " + mydata[i]["proName"] + "</td>";
-    //                     var td3 = "<td> " + mydata[i]["year"] + "</td>";
-    //                     var td4 = "<td> " + mydata[i]["weight"] + "</td>";
-    //                     var td5 = "<td> " + mydata[i]["quantity"] + "</td>";
-    //                     var td6 = "<td>"  + "<button>"+ "Approve" +"</button>" 
-    //                                       + "<button>"+ "Reject" +"</button>" + "</td></tr>"
-    //                     document.getElementById("td1").innerHTML = td1;
-    //                     document.getElementById("td2").innerHTML = td2;
-    //                     document.getElementById("td3").innerHTML = td3;
-    //                     document.getElementById("td4").innerHTML = td4;
-    //                     document.getElementById("td5").innerHTML = td5;
-    //                     document.getElementById("td6").innerHTML = td6;
-    //                    // document.getElementById("td7").innerHTML = td7;
-    //                     $("#itemList").append(tr+td1+td2+td3+td4+td5+td6);
-    // }
-    //                 }
-    //           }
+
     $.ajax({
               type: "GET", 
               url: "http://localhost:3000/readAllrequest",
@@ -156,24 +90,56 @@ footer {
         //        console.log(value)
              //   var result1=value.JsonObj
              //   var data = new Array()
+
                 var hi= result.readAllRequest
-                var length = hi.response.length
-                console.log("hii----->",length)
-                for (i = 0; i < length ; i++){
-                event_data += '<tr>';
-            //    event_data += '<td id='+i+' value='+""+'>'+value.Id+'</td>';
-                event_data += '<td>'+hi.response[i].RollNo+'</td>';
-                event_data += '<td>'+hi.response[i].Score+'</td>';
-                // event_data += '<td>'+hi.response[i].blocktime+'</td>';
+               // var length = hi.response.length
+               
+               var data =JSON.parse(hi[8].Score)
+                console.log("hii----->",data)
+               // var dat = JSON.parse(hi.query.response[7].Score)
+                //console.log("dat",dat.rollNo)
+                 var mydata = []
+                for (i = 0; i < hi.length ; i++){  
+                  console.log("i----->",hi.length)
+                
+                  //var data = JSON.parse(hi[i])
+                  console.log("data--->",data)
+                  var rollNo = data.rollNo
+                  console.log("rollNo-->",rollNo)
+                  var score = data.score
+                  console.log(score)
+                  var status = data.status
+                  console.log(status)
+
+                  mydata.push({
+                    "RollNo" : rollNo,
+                    "Score"  : score,
+                    "Status" : status
+                  })
+
+              
+               for (var j = 0; j < mydata.length; j++){
+                console.log("mydata=====>",mydata[j])
+                 console.log("length", mydata.length)
+                var tr1 = '<tr>';
+          //    event_data += '<td id='+i+' value='+""+'>'+value.Id+'</td>';
+                var td1 = '<td>'+mydata[j]["RollNo"]+'</td>';
+                var td2 = '<td>'+mydata[j]["Score"]+'</td>';
+                var td3 = '<td>'+mydata[j]["Status"]+'</td></tr>';
                 // event_data += '<td>'+hi.response[i].txid+'</td>';
-                event_data += '</tr>';
+               // var tr2 = '</tr>';
+
+               document.getElementById("td1").innerHTML = td1;
+               document.getElementById("td2").innerHTML = td2;
+               document.getElementById("td3").innerHTML = td3;
                 };
-            $("#itemList").append(event_data);
+                }
+            $('#itemList').append(tr1+td1+td2+td3);
         },
       })
   
-    }
-})
+    
+
 
 $(document).ready(function(){
         $("#approve").click(function(){
